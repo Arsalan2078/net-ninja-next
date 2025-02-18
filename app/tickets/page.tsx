@@ -1,7 +1,18 @@
+import TicketList from "./TicketList";
+
 export default function Page() {
   return (
     <main>
-      <h2>Tickets Page</h2>
+      <nav>
+        <div>
+          <h2>Tickets</h2>
+          <p>
+            <small>Currently open tickets</small>
+          </p>
+        </div>
+      </nav>
+
+      <TicketList />
     </main>
   );
 }
