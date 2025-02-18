@@ -1,10 +1,5 @@
-type TicketProps = {
-  id: number;
-  title: string;
-  body: string;
-  priority: string;
-  user_email: string;
-};
+import Link from "next/link";
+import { TicketProps } from "../lib/types";
 
 async function getTickets() {
   const response = await fetch("http://localhost:4000/tickets", {
@@ -21,13 +16,15 @@ export default async function TicketList() {
   return (
     <>
       {tickets.map((ticket) => (
-        <div key={ticket.id} className="card my-5">
-          <h3>{ticket.title}</h3>
-          <p>{ticket.body.slice(0, 200)}...</p>
-          <div className={`pill ${ticket.priority}`}>
-            {ticket.priority} priority
+        <Link href={`/tickets/${ticket.id}`} key={ticket.id}>
+          <div className="card my-5">
+            <h3>{ticket.title}</h3>
+            <p>{ticket.body.slice(0, 200)}...</p>
+            <div className={`pill ${ticket.priority}`}>
+              {ticket.priority} priority
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
 
       {tickets.length === 0 && <p className="text-center">No open tickets.</p>}
