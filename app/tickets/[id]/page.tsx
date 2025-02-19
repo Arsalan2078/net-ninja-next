@@ -1,4 +1,15 @@
 import { TicketProps } from "@/app/lib/types";
+import { notFound } from "next/navigation";
+
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const response = await fetch(`http://localhost:4000/tickets`);
+
+  const tickets: TicketProps[] = await response.json();
+
+  return tickets.map((ticket) => ({ id: ticket.id }));
+}
 
 interface ParamsProps {
   id: string;
@@ -11,9 +22,14 @@ interface PageProps {
 async function getTicket(id: string) {
   const response = await fetch(`http://localhost:4000/tickets/${id}`, {
     next: {
-      revalidate: 0,
+      revalidate: 60,
     },
   });
+
+  if (!response.ok) {
+    notFound();
+  }
+
   return response.json();
 }
 
