@@ -1,4 +1,5 @@
 import { TicketProps } from "@/app/lib/types";
+import Loading from "@/app/loading";
 import { notFound } from "next/navigation";
 
 export const dynamicParams = true;
@@ -20,6 +21,8 @@ interface PageProps {
 }
 
 async function getTicket(id: string) {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   const response = await fetch(`http://localhost:4000/tickets/${id}`, {
     next: {
       revalidate: 60,
@@ -40,17 +43,22 @@ export default async function Page({ params }: PageProps) {
   return (
     <main>
       <nav>
-        <h2>Ticket Details</h2>
+        <div>
+          <h2>Ticket Details</h2>
+          <p>
+            <small>More information bout the Ticket</small>
+          </p>
+        </div>
       </nav>
 
-      <div className="card">
-        <h3>{ticket.title}</h3>
-        <small>Created by {ticket.user_email}</small>
-        <p>{ticket.body}</p>
-        <div className={`pill ${ticket.priority}`}>
-          {ticket.priority} priority
+        <div className="card">
+          <h3>{ticket.title}</h3>
+          <small>Created by {ticket.user_email}</small>
+          <p>{ticket.body}</p>
+          <div className={`pill ${ticket.priority}`}>
+            {ticket.priority} priority
+          </div>
         </div>
-      </div>
     </main>
   );
 }
