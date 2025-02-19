@@ -1,5 +1,5 @@
 export type TicketProps = {
-  id: string;
+  id?: string;
   title: string;
   body: string;
   priority: string;
